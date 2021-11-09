@@ -22,6 +22,7 @@ class _AddContactScreenState extends State<AddContactScreen> {
     if (_formKey.currentState!.validate()) {
       print("validated");
     }
+
     if (_nameController.text != "" && _mobileController.text != "") {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -55,7 +56,7 @@ class _AddContactScreenState extends State<AddContactScreen> {
                   autocorrect: false,
                   obscureText: false,
                   controller: _nameController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     prefixIcon: Icon(
                       Icons.account_box,
                     ),
@@ -63,7 +64,7 @@ class _AddContactScreenState extends State<AddContactScreen> {
                   ),
                   maxLines: 1,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 TextFormField(
@@ -71,7 +72,7 @@ class _AddContactScreenState extends State<AddContactScreen> {
                   keyboardType: TextInputType.number,
                   autocorrect: false,
                   controller: _mobileController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     prefixIcon: Icon(
                       Icons.call_rounded,
                     ),
@@ -79,14 +80,14 @@ class _AddContactScreenState extends State<AddContactScreen> {
                   ),
                   maxLines: 1,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Container(
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () => _addContact(),
-                    child: Text("Add to contact"),
+                    child: const Text("Add to contact"),
                   ),
                 )
               ],
