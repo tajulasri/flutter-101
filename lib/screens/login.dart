@@ -6,7 +6,8 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //get arguments from previous route action
-    final routeArguments = ModalRoute.of(context)?.settings.arguments;
+    var routeArguments =
+        ModalRoute.of(context)?.settings.arguments as Map<String, String>;
 
     return Scaffold(
       appBar: AppBar(
@@ -15,9 +16,7 @@ class LoginScreen extends StatelessWidget {
         elevation: 0,
       ),
       body: Center(
-        child: Text(
-          routeArguments.toString(),
-        ),
+        child: Text(routeArguments['name'].toString()),
       ),
     );
   }

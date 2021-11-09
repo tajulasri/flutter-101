@@ -1,24 +1,35 @@
+import 'package:asset_kktm/screens/add_contact.dart';
 import 'package:asset_kktm/screens/login.dart';
 import 'package:flutter/material.dart';
 
 class ListViewScreen extends StatelessWidget {
   ListViewScreen({Key? key}) : super(key: key);
 
+  //variable ini kepunyaan class widgets
   List contacts = [
-    {"name": "Shah", "mobile": "01344545657"},
-    {"name": "Lan", "mobile": "01344542357"},
-    {"name": "Rudy", "mobile": "01344523257"},
-    {"name": "Naim", "mobile": "01344535357"},
-    {"name": "Shahrul", "mobile": "01344535657"},
-    {"name": "Ikhwan", "mobile": "01344542657"},
+    {"name": "Shah", "mobile": "01344545657", "type": "Work"},
+    {"name": "Lan", "mobile": "01344542357", "type": "Work"},
+    {"name": "Rudy", "mobile": "01344523257", "type": "Work"},
+    {"name": "Naim", "mobile": "01344535357", "type": "Work"},
+    {"name": "Shahrul", "mobile": "01344535657", "type": "Work"},
+    {"name": "Ikhwan", "mobile": "01344542657", "type": "Work"},
   ];
 
   //function to navigate to next screen
   _navigateToDetailScreen(context, contact) {
     Navigator.of(context).push(
       MaterialPageRoute(
+        //dimana variable contact ni kepunyaan function _navigateToDetailScreen
         settings: RouteSettings(arguments: contact),
         builder: (context) => const LoginScreen(),
+      ),
+    );
+  }
+
+  _navigateToAddContact(context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => AddContactScreen(),
       ),
     );
   }
@@ -28,6 +39,12 @@ class ListViewScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
+        actions: [
+          IconButton(
+            onPressed: () => _navigateToAddContact(context),
+            icon: Icon(Icons.add),
+          ),
+        ],
       ),
       body: Container(
         child: ListView.separated(
@@ -37,9 +54,10 @@ class ListViewScreen extends StatelessWidget {
             itemBuilder: (context, index) => GestureDetector(
                   onTap: () => _navigateToDetailScreen(
                     context,
-                    contacts[index]['name'],
+                    contacts[index],
                   ),
                   child: Container(
+                      color: Colors.transparent,
                       height: 60,
                       margin: EdgeInsets.all(10.0),
                       child: Row(
