@@ -3,7 +3,6 @@ import 'dart:ui';
 import 'package:asset_kktm/screens/add_contact.dart';
 import 'package:asset_kktm/screens/dashboard.dart';
 import 'package:asset_kktm/screens/list_view.dart';
-import 'package:asset_kktm/screens/login.dart';
 import 'package:flutter/material.dart';
 
 class HomePageScreen extends StatefulWidget {
@@ -53,7 +52,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
           type: BottomNavigationBarType.fixed,
           currentIndex: currentIndex,
           onTap: (index) => _changeIndex(index),
-          items: [
+          items: const [
             BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
             BottomNavigationBarItem(
               icon: Icon(Icons.list_outlined),

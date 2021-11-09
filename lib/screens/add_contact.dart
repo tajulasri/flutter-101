@@ -14,7 +14,14 @@ class _AddContactScreenState extends State<AddContactScreen> {
 
   final _formKey = GlobalKey<FormState>();
 
+  _validate(field, value) {
+    return value == null || value.isEmpty ? "$field is required." : null;
+  }
+
   _addContact() {
+    if (_formKey.currentState!.validate()) {
+      print("validated");
+    }
     if (_nameController.text != "" && _mobileController.text != "") {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -43,7 +50,8 @@ class _AddContactScreenState extends State<AddContactScreen> {
             key: _formKey,
             child: Column(
               children: [
-                TextField(
+                TextFormField(
+                  validator: (value) => _validate('Name', value),
                   autocorrect: false,
                   obscureText: false,
                   controller: _nameController,
@@ -58,7 +66,8 @@ class _AddContactScreenState extends State<AddContactScreen> {
                 SizedBox(
                   height: 10,
                 ),
-                TextField(
+                TextFormField(
+                  validator: (value) => _validate('Mobile', value),
                   keyboardType: TextInputType.number,
                   autocorrect: false,
                   controller: _mobileController,
