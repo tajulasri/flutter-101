@@ -43,7 +43,7 @@ class DashBoardScreen extends StatelessWidget {
                 width: double.infinity,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                  children: const [
                     Text(
                       "DISPOSABLE ASSETS",
                       style: TextStyle(
@@ -71,7 +71,7 @@ class DashBoardScreen extends StatelessWidget {
                 width: double.infinity,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                  children: const [
                     Text(
                       "FIXED ASSETS",
                       style: TextStyle(

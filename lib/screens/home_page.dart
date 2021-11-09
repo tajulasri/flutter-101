@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:asset_kktm/screens/add_contact.dart';
 import 'package:asset_kktm/screens/dashboard.dart';
 import 'package:asset_kktm/screens/list_view.dart';
+import 'package:asset_kktm/services/api.dart';
 import 'package:flutter/material.dart';
 
 class HomePageScreen extends StatefulWidget {
@@ -15,6 +16,7 @@ class HomePageScreen extends StatefulWidget {
 class _HomePageScreenState extends State<HomePageScreen> {
   String pageTitle = "Home Page";
   int currentIndex = 0;
+  bool isReady = true;
 
   List<Widget> screens = [
     DashBoardScreen(),
@@ -22,6 +24,12 @@ class _HomePageScreenState extends State<HomePageScreen> {
     AddContactScreen(),
     AddContactScreen(),
   ];
+
+  //init state akan trigger waktu widget sedang di build.
+  @override
+  void initState() {
+    getAllTodos();
+  }
 
   _changeIndex(int index) {
     setState(() {
@@ -31,43 +39,51 @@ class _HomePageScreenState extends State<HomePageScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(pageTitle),
-        centerTitle: true,
-        elevation: 0,
-        actions: [
-          IconButton(
-            onPressed: () {
-              print("This is more button");
-            },
-            icon: const Icon(
-              Icons.more_vert_outlined,
+    return !isReady
+        ? Container(
+            color: Colors.white,
+            child: Center(
+              child: CircularProgressIndicator(),
             ),
           )
-        ],
-      ),
-      body: screens[currentIndex],
-      bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          currentIndex: currentIndex,
-          onTap: (index) => _changeIndex(index),
-          items: const [
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.list_outlined),
-              label: "Assets",
+        : Scaffold(
+            appBar: AppBar(
+              title: Text(pageTitle),
+              centerTitle: true,
+              elevation: 0,
+              actions: [
+                IconButton(
+                  onPressed: () {
+                    print("This is more button");
+                  },
+                  icon: const Icon(
+                    Icons.more_vert_outlined,
+                  ),
+                )
+              ],
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.qr_code),
-              label: "Scan",
-            ),
-            BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.settings,
-                ),
-                label: "Account"),
-          ]),
-    );
+            body: screens[currentIndex],
+            bottomNavigationBar: BottomNavigationBar(
+                type: BottomNavigationBarType.fixed,
+                currentIndex: currentIndex,
+                onTap: (index) => _changeIndex(index),
+                items: const [
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.home), label: "Home"),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.list_outlined),
+                    label: "Assets",
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.qr_code),
+                    label: "Scan",
+                  ),
+                  BottomNavigationBarItem(
+                      icon: Icon(
+                        Icons.settings,
+                      ),
+                      label: "Account"),
+                ]),
+          );
   }
 }
