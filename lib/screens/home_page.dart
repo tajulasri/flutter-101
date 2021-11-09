@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:asset_kktm/screens/add_contact.dart';
+import 'package:asset_kktm/screens/dashboard.dart';
 import 'package:asset_kktm/screens/list_view.dart';
 import 'package:asset_kktm/screens/login.dart';
 import 'package:flutter/material.dart';
@@ -13,16 +15,19 @@ class HomePageScreen extends StatefulWidget {
 
 class _HomePageScreenState extends State<HomePageScreen> {
   String pageTitle = "Home Page";
+  int currentIndex = 0;
 
-  _changePage() {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        settings: const RouteSettings(
-          arguments: "This is previous data from page.",
-        ),
-        builder: (context) => ListViewScreen(),
-      ),
-    );
+  List<Widget> screens = [
+    DashBoardScreen(),
+    ListViewScreen(),
+    AddContactScreen(),
+    AddContactScreen(),
+  ];
+
+  _changeIndex(int index) {
+    setState(() {
+      currentIndex = index;
+    });
   }
 
   @override
@@ -32,7 +37,6 @@ class _HomePageScreenState extends State<HomePageScreen> {
         title: Text(pageTitle),
         centerTitle: true,
         elevation: 0,
-        leading: const Icon(Icons.list),
         actions: [
           IconButton(
             onPressed: () {
@@ -44,51 +48,27 @@ class _HomePageScreenState extends State<HomePageScreen> {
           )
         ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              height: 100,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: const [
-                  Text(
-                    "Pending Request",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Text(
-                    "Total Assets",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
+      body: screens[currentIndex],
+      bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          currentIndex: currentIndex,
+          onTap: (index) => _changeIndex(index),
+          items: [
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.list_outlined),
+              label: "Assets",
             ),
-            Container(
-              padding: const EdgeInsets.only(top: 20),
-              width: double.infinity,
-              height: 400,
-              child: Image.network(
-                  "https://images.unsplash.com/photo-1550355291-bbee04a92027?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTB8fGNhcnxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&w=1000&q=80"),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.qr_code),
+              label: "Scan",
             ),
-            Container(
-              padding: const EdgeInsets.all(10),
-              width: MediaQuery.of(context).size.width,
-              child: ElevatedButton(
-                child: const Text("Click me"),
-                onPressed: _changePage,
-              ),
-            )
-          ],
-        ),
-      ),
+            BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.settings,
+                ),
+                label: "Account"),
+          ]),
     );
   }
 }

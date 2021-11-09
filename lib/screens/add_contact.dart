@@ -12,9 +12,20 @@ class _AddContactScreenState extends State<AddContactScreen> {
   TextEditingController _mobileController = new TextEditingController();
   TextEditingController _workController = new TextEditingController();
 
+  final _formKey = GlobalKey<FormState>();
+
   _addContact() {
     if (_nameController.text != "" && _mobileController.text != "") {
-      print("submit");
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          duration: Duration(seconds: 3),
+          backgroundColor: Colors.green,
+          content: Text(
+            "Contact is saved",
+            textAlign: TextAlign.center,
+          ),
+        ),
+      );
     }
   }
 
@@ -28,46 +39,49 @@ class _AddContactScreenState extends State<AddContactScreen> {
         child: Container(
           margin: EdgeInsets.all(15.0),
           width: double.infinity,
-          child: Column(
-            children: [
-              TextField(
-                autocorrect: false,
-                obscureText: false,
-                controller: _nameController,
-                decoration: InputDecoration(
-                  prefixIcon: Icon(
-                    Icons.account_box,
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                TextField(
+                  autocorrect: false,
+                  obscureText: false,
+                  controller: _nameController,
+                  decoration: InputDecoration(
+                    prefixIcon: Icon(
+                      Icons.account_box,
+                    ),
+                    labelText: "Name",
                   ),
-                  labelText: "Name",
+                  maxLines: 1,
                 ),
-                maxLines: 1,
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              TextField(
-                keyboardType: TextInputType.number,
-                autocorrect: false,
-                controller: _mobileController,
-                decoration: InputDecoration(
-                  prefixIcon: Icon(
-                    Icons.call_rounded,
+                SizedBox(
+                  height: 10,
+                ),
+                TextField(
+                  keyboardType: TextInputType.number,
+                  autocorrect: false,
+                  controller: _mobileController,
+                  decoration: InputDecoration(
+                    prefixIcon: Icon(
+                      Icons.call_rounded,
+                    ),
+                    labelText: "Mobile",
                   ),
-                  labelText: "Mobile",
+                  maxLines: 1,
                 ),
-                maxLines: 1,
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Container(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () => _addContact(),
-                  child: Text("Add to contact"),
+                SizedBox(
+                  height: 20,
                 ),
-              )
-            ],
+                Container(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () => _addContact(),
+                    child: Text("Add to contact"),
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),
