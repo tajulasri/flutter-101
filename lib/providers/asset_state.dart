@@ -6,7 +6,7 @@ class AssetState with ChangeNotifier {
   int _totalAssets = 0;
   List<dynamic> _assets = [];
   Map<dynamic, dynamic> _asset = {};
-  bool _loading = false;
+  bool _loading = true;
 
   List<dynamic> get assets => _assets;
   Map<dynamic, dynamic> get asset => _asset;
@@ -14,8 +14,6 @@ class AssetState with ChangeNotifier {
   int get totalAsstes => _totalAssets;
 
   getAssets() {
-    _loading = true;
-
     getAllAssets().then((data) {
       //finish request
       _loading = false;
@@ -23,7 +21,17 @@ class AssetState with ChangeNotifier {
       _assets = data;
       notifyListeners();
     }).catchError(
-      (error) => print(error),
+      (error) {
+        _loading = false;
+        notifyListeners();
+      },
     );
+  }
+
+  refresh() {
+    _assets = [];
+    _loading = true;
+    notifyListeners();
+    getAssets();
   }
 }
