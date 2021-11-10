@@ -1,19 +1,11 @@
+import 'package:asset_kktm/providers/dashboard_provider.dart';
 import 'package:asset_kktm/screens/add_contact.dart';
 import 'package:asset_kktm/screens/login.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/src/provider.dart';
 
 class ListViewScreen extends StatelessWidget {
   ListViewScreen({Key? key}) : super(key: key);
-
-  //variable ini kepunyaan class widgets
-  List contacts = [
-    {"name": "Shah", "mobile": "01344545657", "type": "Work"},
-    {"name": "Lan", "mobile": "01344542357", "type": "Work"},
-    {"name": "Rudy", "mobile": "01344523257", "type": "Work"},
-    {"name": "Naim", "mobile": "01344535357", "type": "Work"},
-    {"name": "Shahrul", "mobile": "01344535657", "type": "Work"},
-    {"name": "Ikhwan", "mobile": "01344542657", "type": "Work"},
-  ];
 
   //function to navigate to next screen
   _navigateToDetailScreen(context, contact) {
@@ -54,7 +46,7 @@ class ListViewScreen extends StatelessWidget {
             itemBuilder: (context, index) => GestureDetector(
                   onTap: () => _navigateToDetailScreen(
                     context,
-                    contacts[index],
+                    context.watch<DashboardProvider>().contacts[index],
                   ),
                   child: Container(
                       color: Colors.transparent,
@@ -82,7 +74,9 @@ class ListViewScreen extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  contacts[index]['name'],
+                                  context
+                                      .watch<DashboardProvider>()
+                                      .contacts[index]['name'],
                                   style: TextStyle(
                                     fontSize: 17.0,
                                     fontWeight: FontWeight.bold,
@@ -92,7 +86,9 @@ class ListViewScreen extends StatelessWidget {
                                   height: 10,
                                 ),
                                 Text(
-                                  contacts[index]['mobile'],
+                                  context
+                                      .watch<DashboardProvider>()
+                                      .contacts[index]['mobile'],
                                   style: TextStyle(
                                     fontSize: 17.0,
                                     fontWeight: FontWeight.normal,
@@ -104,7 +100,7 @@ class ListViewScreen extends StatelessWidget {
                         ],
                       )),
                 ),
-            itemCount: contacts.length),
+            itemCount: context.watch<DashboardProvider>().contacts.length),
       ),
     );
   }

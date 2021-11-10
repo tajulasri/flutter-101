@@ -1,13 +1,10 @@
+import 'package:asset_kktm/providers/dashboard_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class AddContactScreen extends StatefulWidget {
+class AddContactScreen extends StatelessWidget {
   AddContactScreen({Key? key}) : super(key: key);
 
-  @override
-  _AddContactScreenState createState() => _AddContactScreenState();
-}
-
-class _AddContactScreenState extends State<AddContactScreen> {
   TextEditingController _nameController = new TextEditingController();
   TextEditingController _mobileController = new TextEditingController();
   TextEditingController _workController = new TextEditingController();
@@ -18,23 +15,21 @@ class _AddContactScreenState extends State<AddContactScreen> {
     return value == null || value.isEmpty ? "$field is required." : null;
   }
 
-  _addContact() {
+  _addContact(widgetContext, providerContact) {
     if (_formKey.currentState!.validate()) {
-      print("validated");
-    }
-
-    if (_nameController.text != "" && _mobileController.text != "") {
-      ScaffoldMessenger.of(context).showSnackBar(
+      ScaffoldMessenger.of(widgetContext).showSnackBar(
         const SnackBar(
           duration: Duration(seconds: 3),
           backgroundColor: Colors.green,
           content: Text(
-            "Contact is saved",
+            "Contact added",
             textAlign: TextAlign.center,
           ),
         ),
       );
     }
+
+    if (_nameController.text != "" && _mobileController.text != "") {}
   }
 
   @override
@@ -86,7 +81,25 @@ class _AddContactScreenState extends State<AddContactScreen> {
                 Container(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () => _addContact(),
+                    onPressed: () {
+                      context.read<DashboardProvider>().addContact(
+                            _nameController.text,
+                            _mobileController.text,
+                          );
+
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          duration: Duration(seconds: 3),
+                          backgroundColor: Colors.green,
+                          content: Text(
+                            "Contact added",
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      );
+
+                      Navigator.pop(context);
+                    },
                     child: const Text("Add to contact"),
                   ),
                 )
