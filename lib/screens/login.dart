@@ -1,23 +1,83 @@
+import 'package:asset_kktm/screens/home_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  LoginScreen({Key? key}) : super(key: key);
+
+  TextEditingController _usernameController = new TextEditingController();
+  TextEditingController _passwordController = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    //get arguments from previous route action
-    var routeArguments =
-        ModalRoute.of(context)?.settings.arguments as Map<String, String>;
-
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("login Screen"),
-        centerTitle: true,
-        elevation: 0,
-      ),
-      body: Center(
-        child: Text(routeArguments['name'].toString()),
-      ),
+      body: SingleChildScrollView(
+          child: Container(
+        padding: EdgeInsets.all(20.0),
+        width: double.infinity,
+        margin: EdgeInsets.only(top: 100),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              height: 120,
+              child: Image.network(
+                  'https://www.tvetmara.edu.my/images/Korporat/logo-kktm.jpg'),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Text(
+              "KKTM KEMAMAN",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20.0,
+              ),
+            ),
+            TextFormField(
+              autocorrect: false,
+              obscureText: false,
+              controller: _usernameController,
+              decoration: const InputDecoration(
+                prefixIcon: Icon(
+                  Icons.email_outlined,
+                ),
+                labelText: "Name",
+              ),
+              maxLines: 1,
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            TextFormField(
+              autocorrect: false,
+              obscureText: true,
+              controller: _passwordController,
+              decoration: const InputDecoration(
+                prefixIcon: Icon(
+                  Icons.lock,
+                ),
+                labelText: "Name",
+              ),
+              maxLines: 1,
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Container(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => new HomePageScreen(),
+                  ),
+                ),
+                child: Text("Login"),
+              ),
+            )
+          ],
+        ),
+      )),
     );
   }
 }
