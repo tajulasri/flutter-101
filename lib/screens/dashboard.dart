@@ -1,7 +1,9 @@
+import 'package:asset_kktm/providers/dashboard_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/src/provider.dart';
 
 class DashBoardScreen extends StatelessWidget {
-  const DashBoardScreen({Key? key}) : super(key: key);
+  DashBoardScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +17,7 @@ class DashBoardScreen extends StatelessWidget {
                 width: double.infinity,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
+                  children: [
                     Text(
                       "TOTAL ASSETS",
                       style: TextStyle(
@@ -27,7 +29,10 @@ class DashBoardScreen extends StatelessWidget {
                       height: 20,
                     ),
                     Text(
-                      "10",
+                      context
+                          .watch<DashboardProvider>()
+                          .totalAssetCount
+                          .toString(),
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -43,7 +48,7 @@ class DashBoardScreen extends StatelessWidget {
                 width: double.infinity,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
+                  children: [
                     Text(
                       "DISPOSABLE ASSETS",
                       style: TextStyle(
@@ -55,7 +60,10 @@ class DashBoardScreen extends StatelessWidget {
                       height: 20,
                     ),
                     Text(
-                      "10",
+                      context
+                          .watch<DashboardProvider>()
+                          .totalAssetCount
+                          .toString(),
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -92,7 +100,11 @@ class DashBoardScreen extends StatelessWidget {
                   ],
                 ),
               ),
-            )
+            ),
+            ElevatedButton(
+                onPressed: () =>
+                    context.read<DashboardProvider>().incrementCounter(),
+                child: Text("increment"))
           ],
         ),
       ),

@@ -1,10 +1,12 @@
 import 'dart:ui';
 
+import 'package:asset_kktm/providers/dashboard_provider.dart';
 import 'package:asset_kktm/screens/add_contact.dart';
 import 'package:asset_kktm/screens/dashboard.dart';
 import 'package:asset_kktm/screens/list_view.dart';
 import 'package:asset_kktm/services/api.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/src/provider.dart';
 
 class HomePageScreen extends StatefulWidget {
   const HomePageScreen({Key? key}) : super(key: key);
@@ -48,7 +50,9 @@ class _HomePageScreenState extends State<HomePageScreen> {
           )
         : Scaffold(
             appBar: AppBar(
-              title: Text(pageTitle),
+              title: Text(
+                "State  ${context.watch<DashboardProvider>().totalAssetCount.toString()}",
+              ),
               centerTitle: true,
               elevation: 0,
               actions: [
