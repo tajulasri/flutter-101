@@ -33,6 +33,11 @@ class DashboardProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  removeContact(int index) {
+    _contacts.removeAt(index);
+    notifyListeners();
+  }
+
   //method to simulate our change notifier
   //and implementing how provider works
   incrementCounter() {

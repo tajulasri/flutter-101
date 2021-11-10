@@ -48,6 +48,46 @@ class ListViewScreen extends StatelessWidget {
                     context,
                     context.watch<DashboardProvider>().contacts[index],
                   ),
+                  onLongPress: () {
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: Text("Message"),
+                            content: Text(
+                              "Are you sure to remove this contact?",
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.pop(context),
+                                child: Text("No"),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  context
+                                      .read<DashboardProvider>()
+                                      .removeContact(index);
+
+                                  Navigator.pop(context);
+
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      duration: Duration(seconds: 3),
+                                      backgroundColor: Colors.green,
+                                      content: Text(
+                                        "Contact removed",
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                child: Text("Yes"),
+                              )
+                            ],
+                          );
+                        });
+                    //context.read<DashboardProvider>().removeContact(index);
+                  },
                   child: Container(
                       color: Colors.transparent,
                       height: 60,
