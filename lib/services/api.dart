@@ -10,7 +10,7 @@ getAllTodos() async {
   print(response.body);
 }
 
-getAllAssets() async {
+Future<List<dynamic>> getAllAssets() async {
   var url = Uri.https('flutter.codexpert.my', '/api/assets');
   var response = await http.get(url);
 
@@ -18,7 +18,7 @@ getAllAssets() async {
   return data;
 }
 
-getAsset(String id) async {
+Future<dynamic> getAsset(String id) async {
   var url = Uri.https('flutter.codexpert.my', "/api/assets/${id}");
   var response = await http.get(url);
 

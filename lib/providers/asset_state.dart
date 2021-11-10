@@ -19,10 +19,11 @@ class AssetState with ChangeNotifier {
     getAllAssets().then((data) {
       //finish request
       _loading = false;
-      print(data.length);
       _totalAssets = data.length;
-
+      _assets = data;
       notifyListeners();
-    }).catchError((error) => print(error));
+    }).catchError(
+      (error) => print(error),
+    );
   }
 }

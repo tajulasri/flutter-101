@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:asset_kktm/providers/asset_state.dart';
 import 'package:asset_kktm/providers/dashboard_provider.dart';
 import 'package:asset_kktm/screens/add_contact.dart';
 import 'package:asset_kktm/screens/login.dart';
+import 'package:asset_kktm/services/api.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/src/provider.dart';
 
@@ -14,7 +17,7 @@ class ListViewScreen extends StatelessWidget {
       MaterialPageRoute(
         //dimana variable contact ni kepunyaan function _navigateToDetailScreen
         settings: RouteSettings(arguments: contact),
-        builder: (context) => const LoginScreen(),
+        builder: (context) => LoginScreen(),
       ),
     );
   }
@@ -29,68 +32,32 @@ class ListViewScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //call our state via provider
     context.read<AssetState>().getAssets();
 
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        actions: [
-          IconButton(
-            onPressed: () => _navigateToAddContact(context),
-            icon: Icon(Icons.add),
-          ),
-        ],
-      ),
-      body: Container(
-        child: ListView.separated(
-            separatorBuilder: (context, index) => Divider(
+    return FutureBuilder(
+        future: getAllAssets(),
+        initialData: [],
+        builder: (context, AsyncSnapshot snapshot) {
+          var _data = snapshot.data;
+
+          return Scaffold(
+            appBar: AppBar(
+              elevation: 0,
+              actions: [
+                IconButton(
+                  onPressed: () => _navigateToAddContact(context),
+                  icon: Icon(Icons.add),
+                ),
+              ],
+            ),
+            body: Container(
+              child: ListView.separated(
+                separatorBuilder: (context, index) => Divider(
                   color: Colors.blueGrey[200],
                 ),
-            itemBuilder: (context, index) => GestureDetector(
-                  onTap: () => _navigateToDetailScreen(
-                    context,
-                    context.watch<DashboardProvider>().contacts[index],
-                  ),
-                  onLongPress: () {
-                    showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            title: Text("Message"),
-                            content: Text(
-                              "Are you sure to remove this contact?",
-                            ),
-                            actions: [
-                              TextButton(
-                                onPressed: () => Navigator.pop(context),
-                                child: Text("No"),
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                  context
-                                      .read<DashboardProvider>()
-                                      .removeContact(index);
-
-                                  Navigator.pop(context);
-
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      duration: Duration(seconds: 3),
-                                      backgroundColor: Colors.green,
-                                      content: Text(
-                                        "Contact removed",
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ),
-                                  );
-                                },
-                                child: Text("Yes"),
-                              )
-                            ],
-                          );
-                        });
-                    //context.read<DashboardProvider>().removeContact(index);
-                  },
+                itemBuilder: (context, index) => GestureDetector(
+                  onTap: () => print(1),
                   child: Container(
                       color: Colors.transparent,
                       height: 60,
@@ -117,9 +84,7 @@ class ListViewScreen extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  context
-                                      .watch<DashboardProvider>()
-                                      .contacts[index]['name'],
+                                  _data['label'].toString(),
                                   style: TextStyle(
                                     fontSize: 17.0,
                                     fontWeight: FontWeight.bold,
@@ -129,9 +94,7 @@ class ListViewScreen extends StatelessWidget {
                                   height: 10,
                                 ),
                                 Text(
-                                  context
-                                      .watch<DashboardProvider>()
-                                      .contacts[index]['mobile'],
+                                  _data['label'].toString(),
                                   style: TextStyle(
                                     fontSize: 17.0,
                                     fontWeight: FontWeight.normal,
@@ -143,8 +106,10 @@ class ListViewScreen extends StatelessWidget {
                         ],
                       )),
                 ),
-            itemCount: context.watch<DashboardProvider>().contacts.length),
-      ),
-    );
+                itemCount: _data.length,
+              ),
+            ),
+          );
+        });
   }
 }
