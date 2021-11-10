@@ -1,3 +1,4 @@
+import 'package:asset_kktm/providers/asset_state.dart';
 import 'package:asset_kktm/providers/dashboard_provider.dart';
 import 'package:asset_kktm/screens/add_contact.dart';
 import 'package:asset_kktm/screens/login.dart';
@@ -28,6 +29,8 @@ class ListViewScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.read<AssetState>().getAssets();
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,

@@ -1,3 +1,4 @@
+import 'package:asset_kktm/providers/asset_state.dart';
 import 'package:asset_kktm/providers/dashboard_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/src/provider.dart';
@@ -29,10 +30,7 @@ class DashBoardScreen extends StatelessWidget {
                       height: 20,
                     ),
                     Text(
-                      context
-                          .watch<DashboardProvider>()
-                          .totalAssetCount
-                          .toString(),
+                      context.watch<AssetState>().totalAsstes.toString(),
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,

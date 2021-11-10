@@ -1,3 +1,4 @@
+import 'package:asset_kktm/providers/asset_state.dart';
 import 'package:asset_kktm/providers/dashboard_provider.dart';
 import 'package:asset_kktm/screens/home_page.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,9 @@ void main() {
       providers: [
         ChangeNotifierProvider(
           create: (_) => DashboardProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => AssetState(),
         ),
       ],
       child: const MyApp(),
