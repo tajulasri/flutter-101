@@ -1,7 +1,9 @@
 import 'package:asset_kktm/providers/asset_state.dart';
 import 'package:asset_kktm/providers/dashboard_provider.dart';
+import 'package:asset_kktm/screens/login.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/src/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DashBoardScreen extends StatelessWidget {
   DashBoardScreen({Key? key}) : super(key: key);
@@ -100,8 +102,17 @@ class DashBoardScreen extends StatelessWidget {
               ),
             ),
             ElevatedButton(
-                onPressed: () =>
-                    context.read<DashboardProvider>().incrementCounter(),
+                onPressed: () async {
+                  SharedPreferences sharedPreferences =
+                      await SharedPreferences.getInstance();
+                  sharedPreferences.clear();
+
+                  Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(
+                        builder: (context) => LoginScreen(),
+                      ),
+                      (route) => false);
+                },
                 child: Text("increment"))
           ],
         ),

@@ -11,6 +11,7 @@ import 'package:asset_kktm/screens/scan_asset.dart';
 import 'package:asset_kktm/services/api.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/src/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePageScreen extends StatefulWidget {
   const HomePageScreen({Key? key}) : super(key: key);
@@ -24,6 +25,8 @@ class _HomePageScreenState extends State<HomePageScreen> {
   int currentIndex = 0;
   bool isReady = true;
 
+  var profile = null;
+
   List<Widget> screens = [
     DashBoardScreen(),
     ListViewScreen(),
@@ -33,7 +36,12 @@ class _HomePageScreenState extends State<HomePageScreen> {
 
   //init state akan trigger waktu widget sedang di build.
   @override
-  void initState() {}
+  void initState() {
+    var _profile = getProfile();
+    setState(() {
+      profile = _profile;
+    });
+  }
 
   _changeIndex(int index) {
     setState(() {
@@ -50,9 +58,14 @@ class _HomePageScreenState extends State<HomePageScreen> {
           return snapshot.data != null
               ? Scaffold(
                   appBar: AppBar(
-                    title: Text(
-                      "State  ${context.watch<DashboardProvider>().totalAssetCount.toString()}",
-                    ),
+                    title: FutureBuilder(
+                        future: getProfile(),
+                        initialData: null,
+                        builder: (context, AsyncSnapshot snapshot) {
+                          return snapshot.data == null
+                              ? Text("Loading...")
+                              : Text(snapshot.data['name'].toString());
+                        }),
                     centerTitle: true,
                     elevation: 0,
                     actions: [

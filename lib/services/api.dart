@@ -41,6 +41,21 @@ login(String username, String password) async {
   return convert.jsonDecode(response.body);
 }
 
+Future<dynamic> getProfile() async {
+  var token = await getToken();
+
+  Uri url = Uri.https("flutter.codexpert.my", "/api/me");
+  var response = await http.post(
+    url,
+    headers: {
+      "content-type": "application/json",
+      "Authorization": "Bearer ${token}"
+    },
+  );
+
+  return convert.jsonDecode(response.body);
+}
+
 storeToken(String token) async {
   SharedPreferences sharePreference = await SharedPreferences.getInstance();
   sharePreference.setString('token', token);
