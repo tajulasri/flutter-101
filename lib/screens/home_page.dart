@@ -4,6 +4,7 @@ import 'package:asset_kktm/providers/dashboard_provider.dart';
 import 'package:asset_kktm/screens/add_contact.dart';
 import 'package:asset_kktm/screens/dashboard.dart';
 import 'package:asset_kktm/screens/list_view.dart';
+import 'package:asset_kktm/screens/scan_asset.dart';
 import 'package:asset_kktm/services/api.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/src/provider.dart';
@@ -23,7 +24,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
   List<Widget> screens = [
     DashBoardScreen(),
     ListViewScreen(),
-    AddContactScreen(),
+    ScanAssetScreen(),
     AddContactScreen(),
   ];
 
@@ -72,8 +73,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                 currentIndex: currentIndex,
                 onTap: (index) => _changeIndex(index),
                 items: const [
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.home), label: "Home"),
+                  BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
                   BottomNavigationBarItem(
                     icon: Icon(Icons.list_outlined),
                     label: "Assets",
