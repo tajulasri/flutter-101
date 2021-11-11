@@ -1,6 +1,7 @@
 import 'dart:convert' as convert;
 
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 const String API_ENDPOINT = "";
 
@@ -24,4 +25,31 @@ Future<dynamic> getAsset(String id) async {
 
   var data = convert.jsonDecode(response.body);
   return data['status'] == 200 ? data['data'] : [];
+}
+
+login(String username, String password) async {
+  Uri url = Uri.https("flutter.codexpert.my", "/api/login");
+  var response = await http.post(
+    url,
+    body: convert.jsonEncode(
+      {"email": username, "password": password},
+    ),
+  );
+
+  return convert.jsonDecode(response.body);
+}
+
+storeToken(String token) async {
+  SharedPreferences sharePreference = await SharedPreferences.getInstance();
+  sharePreference.setString('token', token);
+}
+
+getToken() async {
+  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  String? token = sharedPreferences.getString('token');
+  return token;
+}
+
+bool isLoggedIn() {
+  return getToken() == null ? false : true;
 }

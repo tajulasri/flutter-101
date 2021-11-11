@@ -1,4 +1,5 @@
 import 'package:asset_kktm/providers/asset_state.dart';
+import 'package:asset_kktm/providers/auth_state.dart';
 import 'package:asset_kktm/providers/dashboard_provider.dart';
 import 'package:asset_kktm/screens/home_page.dart';
 import 'package:asset_kktm/screens/login.dart';
@@ -14,6 +15,9 @@ void main() {
         ),
         ChangeNotifierProvider(
           create: (_) => AssetState(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => AuthState(),
         ),
       ],
       child: const MyApp(),
@@ -32,7 +36,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.deepPurple,
         brightness: Brightness.light,
       ),
-      home: HomePageScreen(),
+      home: LoginScreen(),
     );
   }
 }
