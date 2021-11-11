@@ -1,4 +1,5 @@
 import 'dart:convert' as convert;
+import 'dart:io';
 
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -31,6 +32,7 @@ login(String username, String password) async {
   Uri url = Uri.https("flutter.codexpert.my", "/api/login");
   var response = await http.post(
     url,
+    headers: {"content-type": "application/json"},
     body: convert.jsonEncode(
       {"email": username, "password": password},
     ),
@@ -45,6 +47,12 @@ storeToken(String token) async {
 }
 
 getToken() async {
+  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  String? token = sharedPreferences.getString('token');
+  return token;
+}
+
+Future<dynamic> checkToken() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   String? token = sharedPreferences.getString('token');
   return token;

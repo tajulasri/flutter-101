@@ -1,5 +1,6 @@
 import 'package:asset_kktm/providers/auth_state.dart';
 import 'package:asset_kktm/screens/home_page.dart';
+import 'package:asset_kktm/services/api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/src/provider.dart';
@@ -69,10 +70,27 @@ class LoginScreen extends StatelessWidget {
             Container(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () => context.read<AuthState>().login(
-                      _usernameController.text,
-                      _passwordController.text,
-                    ),
+                onPressed: () async {
+                  var result = await login(
+                    _usernameController.text,
+                    _passwordController.text,
+                  );
+
+                  print(result['access_token']);
+
+                  if (result.containsKey('access_token')) {
+                    storeToken(result['access_token']);
+                    if (isLoggedIn()) {
+                      context.read<AuthState>().successLogin();
+
+                      Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                            builder: (context) => HomePageScreen(),
+                          ),
+                          (route) => false);
+                    }
+                  }
+                },
                 child: Text("Login"),
               ),
             )

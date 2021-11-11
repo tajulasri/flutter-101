@@ -11,11 +11,8 @@ class AuthState with ChangeNotifier {
   bool get isAuthenticated => _isAuthenticated;
   bool get loading => _loading;
 
-  login(String username, String password) {
-    login(username, password).then((response) {
-      print(response);
-    }).catchError((error) {
-      print(error);
-    });
+  successLogin() {
+    _isAuthenticated = true;
+    notifyListeners();
   }
 }
